@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FrameworkGridView: View {
     
-    @StateObject var viewModel = FrameworkGridViewModel()
+    @ObservedObject var viewModel: FrameworkGridViewModel
     
     var body: some View {
         NavigationStack {
@@ -22,7 +22,7 @@ struct FrameworkGridView: View {
             }
             .navigationTitle("Apple Frameworks")
             .navigationDestination(for: Framework.self) { framework in
-                FrameworkDetailView(framework: framework)
+                FrameworkDetailView(viewModel: FrameworkDetailViewModel(framework: framework, isShowingDetailView: viewModel.isShowingDetailView))
             }
         }
         .accentColor(Color(.label))
@@ -31,6 +31,6 @@ struct FrameworkGridView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        FrameworkGridView()
+        FrameworkGridView(viewModel: FrameworkGridViewModel(isShowingDetailView: .constant(false)))
     }
 }
